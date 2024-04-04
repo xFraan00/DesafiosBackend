@@ -1,0 +1,11 @@
+[
+  {
+    "id": 1,
+    "title": "Pizza",
+    "description": "Pizza de Muzzarella",
+    "price": 150,
+    "thumbnail": "URL",
+    "code": "a1",
+    "stock": 10
+  }
+]
