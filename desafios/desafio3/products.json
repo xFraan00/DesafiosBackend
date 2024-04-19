@@ -1,0 +1,92 @@
+[
+  {
+    "id": 1,
+    "title": "Hamburguesa",
+    "description": "Hamburguesa Clásica",
+    "price": 150,
+    "thumbnail": "URL",
+    "code": "c1",
+    "stock": 10
+  },
+  {
+    "id": 2,
+    "title": "Sándwich",
+    "description": "Sándwich de Pollo",
+    "price": 120,
+    "thumbnail": "URL",
+    "code": "c2",
+    "stock": 10
+  },
+  {
+    "id": 3,
+    "title": "Ensalada",
+    "description": "Ensalada César",
+    "price": 180,
+    "thumbnail": "URL",
+    "code": "c3",
+    "stock": 10
+  },
+  {
+    "id": 4,
+    "title": "Pasta",
+    "description": "Pasta Alfredo",
+    "price": 200,
+    "thumbnail": "URL",
+    "code": "c4",
+    "stock": 10
+  },
+  {
+    "id": 5,
+    "title": "Sushi",
+    "description": "Sushi Variado",
+    "price": 300,
+    "thumbnail": "URL",
+    "code": "c5",
+    "stock": 10
+  },
+  {
+    "id": 6,
+    "title": "Taco",
+    "description": "Taco de Carnitas",
+    "price": 100,
+    "thumbnail": "URL",
+    "code": "c6",
+    "stock": 10
+  },
+  {
+    "id": 7,
+    "title": "Sopa",
+    "description": "Sopa de Verduras",
+    "price": 80,
+    "thumbnail": "URL",
+    "code": "c7",
+    "stock": 10
+  },
+  {
+    "id": 8,
+    "title": "Pollo",
+    "description": "Pollo a la Parrilla",
+    "price": 220,
+    "thumbnail": "URL",
+    "code": "c8",
+    "stock": 10
+  },
+  {
+    "id": 9,
+    "title": "Pescado",
+    "description": "Filete de Salmón",
+    "price": 270,
+    "thumbnail": "URL",
+    "code": "c9",
+    "stock": 10
+  },
+  {
+    "id": 10,
+    "title": "Postre",
+    "description": "Pastel de Chocolate",
+    "price": 180,
+    "thumbnail": "URL",
+    "code": "c10",
+    "stock": 10
+  }
+]
