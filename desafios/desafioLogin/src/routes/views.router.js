@@ -1,51 +1,79 @@
-import { Router } from 'express';
-import productModel from '../dao/models/products.model.js';
-import cartsModel from '../dao/models/carts.model.js';
-import { isNotAuthenticated } from '../middleware/auth.js';
+import { Router } from "express";
+import productModel from "../dao/models/products.model.js";
+import cartModel from "../dao/models/carts.model.js";
+import { isAuth, isNotAuth } from "../middleware/auth.js";
 
 const viewsRouter = Router();
 
-viewsRouter.get('/', async (_req, res) => {
+viewsRouter.get("/login", isNotAuth, (req, res) => {
+    res.render("login");
+});
+
+viewsRouter.get("/register", isNotAuth, (req, res) => {
+    res.render("register");
+});
+
+viewsRouter.get("/products", isAuth, async (req, res) => {
+   try {
+        const {user} = req.session;
+        const page = req.query.page;
+        const options = {
+            page: page,
+            limit: 5,
+            lean: true
+        }
+        const products = await productModel.paginate({}, options);
+        const {prevPage, nextPage, hasPrevPage, hasNextPage} = products
+        
+        const prevLink = hasPrevPage ? `http://localhost:8080/products?page=${prevPage}` : null;
+        
+        const nextLink = hasNextPage ? `http://localhost:8080/products?page=${nextPage}` : null;
+        
+        res.render("products", {products, prevLink, nextLink, page, user});
+    } catch (error) {
+        console.log(error);
+    }
+});
+
+viewsRouter.get("/", async (req, res) => {
     try {
         const products = await productModel.find().lean();
-        res.render('home', { products });
+        res.render("home", {products});
     } catch (error) {
         console.log(error);
     }
-});
+})
 
-viewsRouter.get('/realtimeproducts', (_req, res) => {
-    res.render('realTimeProducts', {});
-});
-
-viewsRouter.get('/chat', async (_req, res) => {
-    res.render('chat', {});
-});
-
-viewsRouter.get('/products', async (req, res) => {
+viewsRouter.get("/realtimeproducts", isAuth, async (req, res) => {
     try {
-        const page = req.query.page || 1;
-        const limit = 5;
+        const {user} = req.session;
+        const page = req.query.page;
         const options = {
-            page,
-            limit,
-            lean: true,
-        };
+            page: page,
+            limit: 5,
+            lean: true
+        }
         const products = await productModel.paginate({}, options);
-        const { prevPage, nextPage, hasPrevPage, hasNextPage } = products;
-
-        const prevLink = hasPrevPage ? `/products?page=${prevPage}` : null;
-        const nextLink = hasNextPage ? `/products?page=${nextPage}` : null;
-
-        res.render('products', { products, prevLink, nextLink, page });
+        const {prevPage, nextPage, hasPrevPage, hasNextPage} = products
+        
+        const prevLink = hasPrevPage ? `http://localhost:8080/realtimeproducts?page=${prevPage}` : null;
+        
+        const nextLink = hasNextPage ? `http://localhost:8080/realtimeproducts?page=${nextPage}` : null;
+        
+        res.render("realtimeproducts", {products, prevLink, nextLink, page, user});
     } catch (error) {
         console.log(error);
     }
 });
+
+viewsRouter.get("/chat", (req, res) => {
+    res.render("chat", {})
+});
+
 
 viewsRouter.get('/carts', async (_req, res) => {
     try {
-        const cart = await cartsModel.findOne().sort({ createdAt: -1 }).populate('products.product').lean();
+        const cart = await cartModel.findOne().sort({ createdAt: -1 }).populate('products.product').lean();
         if (cart) {
             res.render('cart', { cart });
         } else {
@@ -56,12 +84,4 @@ viewsRouter.get('/carts', async (_req, res) => {
         res.render('cart', { message: 'Hubo un error al cargar el carrito' });
     }
 });
-viewsRouter.get('/login', isNotAuthenticated, (_req, res) => {
-    res.render('login');
-});
-
-viewsRouter.get('/register', isNotAuthenticated, (_req, res) => {
-    res.render('register');
-});
-
 export default viewsRouter;

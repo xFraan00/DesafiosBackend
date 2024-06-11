@@ -3,25 +3,13 @@ import productModel from "../dao/models/products.model.js";
 
 const productsRouter = Router();
 
-productsRouter.get("/", async (req, res) => {
+productsRouter.get("/products", async (_req, res) => {
     try {
-        const {limit, page, sort, query} = req.query;
-        
-        const filter = query ? {category: query} : {};
-        const options = {
-            limit: limit || 10,
-            page: page || 1,
-            sort: sort ? {price: sort === "asc" ? 1 : -1} : {}
-        }
-
-        const products = await productModel.paginate(filter, options)
-
-        res.send({
-            status: "success",
-            payload: products
-        });
+        const products = await productModel.find(); // Obtener todos los productos
+        res.render('products', { products }); // Renderizar la vista con los productos
     } catch (error) {
         console.log(error);
+        res.status(500).send('Error al obtener los productos');
     }
 });
 

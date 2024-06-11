@@ -5,7 +5,7 @@ import passport from 'passport';
 const router = Router();
 
 router.post('/register', passport.authenticate('register', { failureRedirect: '/api/session/failRegister' }), async (req, res) => {    
-    res.redirect('/views/login');
+    res.redirect('/login');
 });
 
 router.post('/login', passport.authenticate('login', { failureRedirect: '/api/session/failLogin' }), async (req, res) => {
@@ -24,13 +24,13 @@ router.post('/login', passport.authenticate('login', { failureRedirect: '/api/se
     };
 
    
-    res.redirect('/views/products');
+    res.redirect('/products');
 });
 
 router.get('/logout', (req, res) => {
     req.session.destroy((err) => {
         if (err) return res.status(500).send({ result: 'Error', message: 'Error al cerrar sesión' });
-        res.redirect('/views/login');
+        res.redirect('/login');
     });
 });
 
@@ -46,7 +46,7 @@ router.get('/github', passport.authenticate('github', { scope: ['user:email'] })
 
 router.get('/githubcallback', passport.authenticate('github', { failureRedirect: '/api/session/failLogin' }), (req, res) => {
     req.session.user = req.user;
-    res.redirect('/views/products');
+    res.redirect('/products');
 });
 
 export default router;
